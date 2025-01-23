@@ -41,8 +41,14 @@ public class SimpleShortenUrlService {
     public String getOriginalUrlByShortenUrlKey(String shortenUrlKey) {
         ShortenUrl shortenUrl = shortenUrlRepository.findShortenUrlByShortenUrlKey(shortenUrlKey);
 
-        if(null == shortenUrl)
-            throw new NotFoundShortenUrlException();
+        if(null == shortenUrl) {
+            //4. Runtime 상속받은 Unchecked Exception
+            //   높은 확률로 사용자가 잘못 요청했을 것이기 때문에, 사용자에게 에러를 그대로 알려줘야 한다.
+            //5. Exception 상속받은 Checked Exception 이었다면?
+            //   throws로 계속 던져주어야 GlobalExceptionHandler에서 처리할 수 있다.
+            //   Checked Exception이 유리한 경우는 예외가 발생한 곳에서 처리할 수 있는 경우이고, 대부분은 Unchecked가 유리하다.
+            throw new NotFoundShortenUrlException("단축 URL을 찾지 못했습니다. shortenUrlKey=" + shortenUrlKey);
+        }
 
         shortenUrl.increaseRedirectCount();
         shortenUrlRepository.saveShortenUrl(shortenUrl);
@@ -56,7 +62,7 @@ public class SimpleShortenUrlService {
         ShortenUrl shortenUrl = shortenUrlRepository.findShortenUrlByShortenUrlKey(shortenUrlKey);
 
         if(null == shortenUrl)
-            throw new NotFoundShortenUrlException();
+            throw new NotFoundShortenUrlException("단축 URL을 찾지 못했습니다. shortenUrlKey=" + shortenUrlKey);
 
         ShortenUrlInformationDto shortenUrlInformationDto = new ShortenUrlInformationDto(shortenUrl);
 
