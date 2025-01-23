@@ -33,7 +33,10 @@ public class ShortenUrlRestController {
         //System.out.println(shortenUrlCreateRequestDto.getORriginalUrl());
         //2. Slf4j
         //log.info("createShortenUrl");
-        log.info("createShortenUrl {}", shortenUrlCreateRequestDto.getOriginalUrl());
+        //3. trace 레벨로 찍고, Dto를 통째로 찍을 것 같다.
+        //   이렇게 하면 어떤 요청이 들어왔는지 알수도있고, 그대로 요청해서 로컬에서 디버깅 할 수도 있다.
+        //   하지만 로그 사이즈가 엄청 커질 수 있다. 이는 레벨 단위로 보관 기간을 전략적으로 선택하면 된다.
+        log.trace("shortenUrlCreateRequestDto {}", shortenUrlCreateRequestDto);
         ShortenUrlCreateResponseDto shortenUrlCreateResponseDto =
                 simpleShortenUrlService.generateShortenUrl(shortenUrlCreateRequestDto);
         return ResponseEntity.ok(shortenUrlCreateResponseDto);

@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MapShortenUrlRepository implements ShortenUrlRepository {
 
+    //만약 데이터베이스를 활용한다면, 쿼리를 debug나 trace로 남겨볼 수도 있습니다.
     private Map<String, ShortenUrl> shortenUrls = new ConcurrentHashMap<>();
 
     @Override

@@ -29,10 +29,13 @@ public class SimpleShortenUrlService {
         //log.info("generateShortenUrl {}", shortenUrlCreateRequestDto.getOriginalUrl());
         String originalUrl = shortenUrlCreateRequestDto.getOriginalUrl();
         String shortenUrlKey = getUniqueShortenUrlKey();
-        //log.info("getUniqueShortenUrlKey {}", shortenUrlKey);
+        //실제로 unique한 값이 나왔는지 확인하기 위해서 debug로 찍어볼 수 있다.
+        log.debug("getUniqueShortenUrlKey {}", shortenUrlKey);
 
         ShortenUrl shortenUrl = new ShortenUrl(originalUrl, shortenUrlKey);
         shortenUrlRepository.saveShortenUrl(shortenUrl);
+        //엔티티 상태가 변화되는 것 정도는 되어야, info 레벨로 찍었을 때 필요한 정도의 로그양이 나올 것이다.
+        log.info("shortenUrl 생성: {}", shortenUrl);
 
         ShortenUrlCreateResponseDto shortenUrlCreateResponseDto = new ShortenUrlCreateResponseDto(shortenUrl);
         return shortenUrlCreateResponseDto;
